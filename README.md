@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # E-BK - Sistem Informasi Disiplin Siswa
 > Proyek Ujian Kompetensi Keahlian (UJK) 
 
@@ -64,3 +65,7 @@ Dengan E-BK, sekolah dapat mewujudkan ekosistem pendidikan yang lebih transparan
 *(Gunakan akun ini untuk masuk sebagai Super Admin)*
 
 ---
+=======
+# sistem_e-bk
+Nanda Wido Prasojo - 220101098
+>>>>>>> 83ed57a201297f5747d6a6e82ec04b8948061fe6
