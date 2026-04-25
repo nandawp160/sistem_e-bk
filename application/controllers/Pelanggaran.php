@@ -7,7 +7,7 @@ class Pelanggaran extends CI_Controller {
         parent::__construct();
         if(!$this->session->userdata('logged_in')) redirect('auth');
         if($this->session->userdata('role') == 'admin') redirect('dashboard');
-        $this->load->model(['M_Pelanggaran', 'M_Siswa']);
+        $this->load->model(['M_Pelanggaran', 'M_Siswa', 'M_Jenis_Pelanggaran']);
     }
 
     public function index() {
@@ -26,6 +26,7 @@ class Pelanggaran extends CI_Controller {
             $data['semua_siswa'] = $this->M_Siswa->ambil_semua();
             $data['semua_kelas'] = $this->M_Siswa->ambil_kelas();
         }
+        $data['master_pelanggaran'] = $this->M_Jenis_Pelanggaran->ambil_semua();
 
         $data['judul'] = 'Data Kedisiplinan Siswa';
 
@@ -40,6 +41,7 @@ class Pelanggaran extends CI_Controller {
         $data['judul'] = 'Input Pelanggaran Siswa';
         $data['semua_siswa'] = $this->M_Siswa->ambil_semua();
         $data['semua_kelas'] = $this->M_Siswa->ambil_kelas();
+        $data['master_pelanggaran'] = $this->M_Jenis_Pelanggaran->ambil_semua();
 
         $this->form_validation->set_rules('siswa_id', 'Siswa', 'required');
         $this->form_validation->set_rules('nama_pelanggaran', 'Nama Pelanggaran', 'required');

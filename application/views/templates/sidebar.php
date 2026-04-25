@@ -20,6 +20,9 @@
         <li class="<?= $this->uri->segment(1) == 'guru' ? 'active' : '' ?>">
             <a href="<?= base_url('guru') ?>"><i class="fas fa-user-tie"></i> Data Guru</a>
         </li>
+        <li class="<?= $this->uri->segment(1) == 'jenis_pelanggaran' ? 'active' : '' ?>">
+            <a href="<?= base_url('jenis_pelanggaran') ?>"><i class="fas fa-list-ul"></i> Master Pelanggaran</a>
+        </li>
         <?php endif; ?>
         <?php if($this->session->userdata('role') != 'admin'): ?>
         <li class="<?= $this->uri->segment(1) == 'pelanggaran' ? 'active' : '' ?>">

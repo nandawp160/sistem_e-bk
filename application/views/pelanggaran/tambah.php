@@ -37,15 +37,28 @@
                         <div class="mb-3">
 
                         <div class="mb-3">
-                            <label for="nama_pelanggaran" class="form-label fw-semibold">Jenis Pelanggaran</label>
-                            <input type="text" class="form-control" id="nama_pelanggaran" name="nama_pelanggaran" placeholder="Contoh: Terlambat, Atribut tidak lengkap" value="<?= set_value('nama_pelanggaran'); ?>">
+                            <label for="nama_pelanggaran_master" class="form-label fw-semibold">Jenis Pelanggaran</label>
+                            <select class="form-select" id="nama_pelanggaran_master">
+                                <option value="" data-poin="">-- Pilih Jenis Pelanggaran --</option>
+                                <?php foreach($master_pelanggaran as $m): ?>
+                                    <option value="<?= $m->nama_pelanggaran; ?>" data-poin="<?= $m->poin; ?>">
+                                        [<?= $m->kategori; ?>] <?= $m->nama_pelanggaran; ?> (<?= $m->poin; ?> Poin)
+                                    </option>
+                                <?php endforeach; ?>
+                                <option value="Lainnya" data-poin="0">-- Lainnya (Ketik Manual) --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3" id="wrapper_manual" style="display: none;">
+                            <label for="nama_pelanggaran" class="form-label fw-semibold text-primary">Nama Pelanggaran Manual</label>
+                            <input type="text" class="form-control border-primary" id="nama_pelanggaran" name="nama_pelanggaran" placeholder="Ketik jenis pelanggaran manual..." value="<?= set_value('nama_pelanggaran'); ?>">
                             <?= form_error('nama_pelanggaran', '<small class="text-danger">', '</small>'); ?>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="poin" class="form-label fw-semibold">Poin Pelanggaran</label>
-                                <input type="number" class="form-control" id="poin" name="poin" placeholder="Contoh: 5, 10, 20" value="<?= set_value('poin'); ?>">
+                                <input type="number" class="form-control" id="poin" name="poin" placeholder="Poin otomatis terisi" value="<?= set_value('poin'); ?>">
                                 <?= form_error('poin', '<small class="text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-md-6">
@@ -102,6 +115,23 @@ $(document).ready(function() {
             $siswaSelect.val(currentSelected);
         } else {
             $siswaSelect.val("");
+        }
+    });
+
+    // Handle Master Pelanggaran Change
+    $('#nama_pelanggaran_master').on('change', function() {
+        const selected = $(this).find(':selected');
+        const nama = selected.val();
+        const poin = selected.data('poin');
+
+        if (nama === 'Lainnya') {
+            $('#wrapper_manual').slideDown();
+            $('#nama_pelanggaran').val('').focus();
+            $('#poin').val('');
+        } else {
+            $('#wrapper_manual').slideUp();
+            $('#nama_pelanggaran').val(nama);
+            $('#poin').val(poin);
         }
     });
 });

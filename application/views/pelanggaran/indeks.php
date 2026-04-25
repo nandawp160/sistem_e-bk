@@ -92,16 +92,30 @@
                         </select>
                     </div>
 
-                    <!-- Jenis Pelanggaran -->
+                    <!-- Jenis Pelanggaran (Dropdown) -->
                     <div class="col-12">
                         <label class="form-label fw-bold small text-muted">Jenis Pelanggaran <span class="text-danger">*</span></label>
-                        <input type="text" name="nama_pelanggaran" class="form-control border-0 bg-light" placeholder="Contoh: Terlambat, Atribut tidak lengkap" required>
+                        <select id="modal-nama-pelanggaran-master" class="form-select border-0 bg-light">
+                            <option value="">-- Pilih Jenis Pelanggaran --</option>
+                            <?php foreach($master_pelanggaran as $m): ?>
+                                <option value="<?= $m->nama_pelanggaran; ?>" data-poin="<?= $m->poin; ?>">
+                                    [<?= $m->kategori; ?>] <?= $m->nama_pelanggaran; ?> (<?= $m->poin; ?> Poin)
+                                </option>
+                            <?php endforeach; ?>
+                            <option value="Lainnya" data-poin="0">-- Lainnya (Ketik Manual) --</option>
+                        </select>
+                    </div>
+
+                    <!-- Nama Pelanggaran Manual (Textarea) -->
+                    <div class="col-12" id="modal-wrapper-manual" style="display: none;">
+                        <label class="form-label fw-bold small text-primary">Detail Pelanggaran Manual <span class="text-danger">*</span></label>
+                        <textarea name="nama_pelanggaran" id="modal-nama-pelanggaran" class="form-control border-primary bg-light" rows="2" placeholder="Sebutkan jenis pelanggaran secara detail..."></textarea>
                     </div>
 
                     <!-- Poin -->
                     <div class="col-md-6">
                         <label class="form-label fw-bold small text-muted">Poin Pelanggaran <span class="text-danger">*</span></label>
-                        <input type="number" name="poin" class="form-control border-0 bg-light" placeholder="Contoh: 5, 10, 20" required>
+                        <input type="number" name="poin" id="modal-poin" class="form-control border-0 bg-light" placeholder="Poin otomatis" required>
                     </div>
 
                     <!-- Tanggal -->
@@ -156,6 +170,23 @@ $(document).ready(function() {
         
         // Reset pilihan siswa jika kelas diganti
         $('#modal-pilih-siswa').val("");
+    });
+
+    // Handle Master Pelanggaran Change di Modal
+    $('#modal-nama-pelanggaran-master').on('change', function() {
+        var selected = $(this).find(':selected');
+        var nama = selected.val();
+        var poin = selected.data('poin');
+
+        if (nama === 'Lainnya') {
+            $('#modal-wrapper-manual').slideDown();
+            $('#modal-nama-pelanggaran').val('').attr('required', true).focus();
+            $('#modal-poin').val('');
+        } else {
+            $('#modal-wrapper-manual').slideUp();
+            $('#modal-nama-pelanggaran').val(nama).attr('required', false);
+            $('#modal-poin').val(poin);
+        }
     });
 });
 </script>
